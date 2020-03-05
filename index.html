@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop</title>
+  <link rel="stylesheet" type="text/css" href="./src/styles/base.css" media="screen"/>
+  <script src="./src/js/store.js"></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const reactiveState = new Proxy(state, {
+        set(target, prop, value, sd) {
+          target[prop] = value
+          render()
+          return true
+        },
+      })
+
+      /* get elements */
+      // input
+      const quantityInputs = document.querySelectorAll('.QuantityInput')
+      const quantityControls = document.querySelectorAll('.QuantityControl')
+      /* fields */
+      const qPriceFields = document.querySelectorAll('.ListItemPrice')
+      const qTotalPriceFields = document.querySelectorAll('.ListItemTotalPrice')
+      // text
+      const totalItemCount = document.querySelector('#TotalItemCount')
+      const totalItemPrice = document.querySelector('#TotalItemPrice')
+      // discount
+      const orderItemDiscountPrices = document.querySelectorAll('.OrderItemDiscountPrice')
+      // order total
+      const orderTotalCost = document.querySelector('#OrderTotalCost')
+
+      const render = () => {
+        // shopping
+        quantityInputs.forEach(input => {
+          input.value = reactiveState[input.id]
+        })
+        qPriceFields.forEach(field => {
+          field.innerHTML = reactiveState.qPriceString(field.id)
+        })
+        qTotalPriceFields.forEach(field => {
+          field.innerHTML = reactiveState.qTotalPriceString(field.id)
+        })
+        // order
+        totalItemCount.innerHTML = reactiveState.totalCountString()
+        totalItemPrice.innerHTML = reactiveState.totalPriceString()
+        // discount
+        orderItemDiscountPrices.forEach(field => {
+          field.innerHTML = reactiveState[field.id]()
+        })
+        // total
+        orderTotalCost.innerHTML = reactiveState.orderTotalCost()
+      }
+
+      /* bind */
+
+      quantityControls.forEach(c => {
+        c.addEventListener('click', () => {
+          const input = c.parentNode.querySelector('.QuantityInput')
+
+          if (!input) {
+            return
+          }
+
+          const toIncrement = c.id.toLowerCase().includes('inc')
+
+          if (toIncrement) {
+            reactiveState[input.id]++
+          } else {
+            reactiveState[input.id]--
+          }
+
+          if (reactiveState[input.id] < 0) {
+            reactiveState[input.id] = 0
+          }
+        })
+      })
+
+      // hydrate state
+      render()
+    })
+  </script>
+</head>
+<body>
+  <div class="Layout">
+    <div class="Screen">
+      <!-- Cart -->
+      <section class="Section Cart">
+        <div class="SectionTitle">Shopping cart</div>
+        <div class="SectionContent Products">
+          <div class="ProductsHeader">
+            <span class="ProductsHeaderItem">Product details</span>
+            <span class="ProductsHeaderItem">Quantity</span>
+            <span class="ProductsHeaderItem">Price</span>
+            <span class="ProductsHeaderItem">Total</span>
+          </div>
+          <!-- Products -->
+          <div class="ProductsList">
+            <!-- Goku -->
+            <div class="ProductListItem">
+              <div class="ListItemInfoCol ItemInfo">
+                <img class="Image" src='http://placeskull.com/60/60/e4317f' alt=''/>
+                <div class="Text">
+                  <span class="InfoProductName">Goku POP</span>
+                  <span class="InfoProductCode">Product Code GOKU</span>
+                </div>
+              </div>
+              <div class="ListItemInfoCol ItemQuantity">
+                <!-- Quantity -->
+                <span id="GokuDec" class="QuantityControl QuantityDecrement">-</span>
+                <input id="gokuCount" class="QuantityInput" type="number" name="" value="1">
+                <span id="GokuInc" class="QuantityControl QuantityIncrement">+</span>
+              </div>
+              <div id="gokuPrice" class="ListItemInfoCol ListItemPrice">5 €</div>
+              <div id="goku" class="ListItemInfoCol ListItemTotalPrice">10 €</div>
+            </div>
+            <!-- Naruto -->
+            <div class="ProductListItem">
+              <div class="ListItemInfoCol ItemInfo">
+                <img class="Image" src='http://placeskull.com/60/60/e4317f' alt=''/>
+                <div class="Text">
+                  <span class="InfoProductName">Naruto POP</span>
+                  <span class="InfoProductCode">Product code NARU</span>
+                </div>
+              </div>
+              <div class="ListItemInfoCol ItemQuantity">
+                <!-- Quantity -->
+                <span id="NarutoDec" class="QuantityControl QuantityDecrement">-</span>
+                <input id="narutoCount" class="QuantityInput" type="number" name="" value="1">
+                <span id="NarutoInc" class="QuantityControl QuantityIncrement">+</span>
+              </div>
+              <div id="narutoPrice" class="ListItemInfoCol ListItemPrice">5 €</div>
+              <div id="naruto" class="ListItemInfoCol ListItemTotalPrice">10 €</div>
+            </div>
+            <!-- Luffy -->
+            <div class="ProductListItem">
+              <div class="ListItemInfoCol ItemInfo">
+                <img class="Image" src='http://placeskull.com/60/60/e4317f' alt=''/>
+                <div class="Text">
+                  <span class="InfoProductName">Luffy POP</span>
+                  <span class="InfoProductCode">Product code LUF</span>
+                </div>
+              </div>
+              <div class="ListItemInfoCol ItemQuantity">
+                <!-- Quantity -->
+                <span id="LuffyDec" class="QuantityControl QuantityDecrement">-</span>
+                <input id="luffyCount" class="QuantityInput" type="number" name="" value="1">
+                <span id="LuffyInc" class="QuantityControl QuantityIncrement">+</span>
+              </div>
+              <div id="luffyPrice" class="ListItemInfoCol ListItemPrice">5 €</div>
+              <div id="luffy" class="ListItemInfoCol ListItemTotalPrice">10 €</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Summary -->
+      <section class="Section Summary ">
+        <div class="SectionTitle">Order Summary</div>
+        <div class="SectionContent">
+          <!-- Per -->
+          <div class="OrderItemRow OrderItemTotalQRow">
+            <span id="TotalItemCount" class="OrderItemDescription">0 item</span>
+            <span id="TotalItemPrice" class="OrderItemPrice">0 €</span>
+          </div>
+          <div class="Divider"></div>
+          <!-- Discounts -->
+          <span class="OrderItemLabel">Discounts</span>
+          <div class="OrderItemRow">
+            <span class="OrderItemDescription">2x1 Goku Pop Offer</span>
+            <span id="gokuDiscountPriceText" class="OrderItemPrice OrderItemDiscountPrice">0 €</span>
+          </div>
+          <div class="OrderItemRow">
+            <span class="OrderItemDescription">x3 Naruto Pop Offer</span>
+            <span id="narutoDiscountPriceText" class="OrderItemPrice OrderItemDiscountPrice">0 €</span>
+          </div>
+          <div class="Divider"></div>
+          <!-- FlexGrow -->
+          <div class="PanelGrow"></div>
+          <!-- Total -->
+          <div class="Total">
+            <div class="Divider"></div>
+            <div class="OrderItemRow OrderItemTotalCostRow">
+              <span class="OrderItemDescription">Total cost</span>
+              <span id="OrderTotalCost" class="OrderItemPrice OrderItemTotalPrice">0 €</span>
+            </div>
+            <div class="OrderItemRow OrderItemRowButton">
+              <div class="OrderButton">Checkout</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

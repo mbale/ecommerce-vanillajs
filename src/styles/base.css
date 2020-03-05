@@ -1,0 +1,280 @@
+@import url("../fonts/inter.css");
+@import url("./normalize.css");
+
+html {
+  font-family: 'Inter';
+}
+
+.Layout {
+  background-color: #212140;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+  .Screen {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    min-height: 90vh;
+    min-width: 75vw;
+  }
+
+  @media only screen and (max-width: 900px) {
+    .Screen {
+      flex-direction: column;
+    }
+  }
+
+:root {
+  --PrimaryColor: #6c42ff;
+}
+
+  .Section {
+    display: flex;
+    flex-direction: column;
+    padding: 45px;
+    user-select: none;
+  }
+
+    .SectionTitle {
+      display: flex;
+      flex-direction: row;
+      box-shadow: 0 2px 1px 0 #e4e5e8;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      color: #141414;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .SectionContent {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      flex-grow: 1;
+    }
+
+/* Cart */
+
+.Cart {
+  flex-grow: 5;
+}
+
+  .Products {
+    --TableGridTemplateCol: 40% 20% 20% 20%;
+  }
+
+    .ProductsHeader {
+      margin-bottom: 30px;
+      display: grid;
+      grid-template-columns: var(--TableGridTemplateCol);
+    }
+
+      .ProductsHeaderItem {
+        color: gray;
+        opacity: 0.4;
+        font-weight: 500;
+        font-size: 0.6rem;
+        letter-spacing: 0.05rem;
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+
+        .ProductsHeaderItem:not(:first-child) {
+          justify-content: center;
+        }
+
+    .ProductsList {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+      .ProductListItem {
+        display: grid;
+        grid-template-columns: var(--TableGridTemplateCol);
+        margin-bottom: 32px;
+      }
+
+        .ListItemInfoCol {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          cursor: default;
+          font-weight: 300;
+        }
+
+          .ListItemInfoCol:not(:first-child) {
+            justify-content: center;
+          }
+
+        .ItemInfo {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+
+          .Image {
+            margin-right: 16px;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+          }
+
+          .Text {
+            display: flex;
+            flex-direction: column;
+          }
+
+            .InfoProductName {
+              font-size: 0.9rem;
+              margin-bottom: 6px;
+              font-weight: 500;
+              color: var(--PrimaryColor);
+            }
+
+            .InfoProductCode {
+              font-size: 0.7rem;
+              opacity: 0.3;
+            }
+
+        .ItemQuantity {
+          --InputControlMargin: 12px;
+        }
+
+          /* Controls */
+
+          .QuantityControl {
+            cursor: pointer;
+            color: var(--PrimaryColor);
+            font-weight: 700;
+            font-size: 1.1rem;
+          }
+
+          .QuantityDecrement {
+            margin-right: var(--InputControlMargin);
+          }
+
+          .QuantityIncrement {
+            margin-left: var(--InputControlMargin);
+          }
+
+          /* Input */
+
+          .QuantityInput {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #e2e2e6;
+            font-size: 0.9rem;
+            padding: 4px;
+          }
+
+            .QuantityInput::-webkit-inner-spin-button,
+            .QuantityInput:focus,
+            .QuantityInput::-webkit-outer-spin-button {
+              -webkit-appearance: none;
+              outline: none;
+            }
+
+/* Summary */
+
+.Summary {
+  background-color: #f3f3f3;
+  flex-grow: 1;
+}
+
+  /* Rows */
+
+  .OrderItemRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+    .OrderItemTotalQRow {
+      margin-bottom: 0px;
+    }
+
+    .OrderItemTotalCostRow {
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    /* Button */
+
+    .OrderItemRowButton {
+      justify-content: stretch;
+      margin: 0;
+    }
+
+      .OrderButton {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-grow: 1;
+        color: white;
+        background-color: var(--PrimaryColor);
+        padding: 10px 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+    /* Left */
+
+    .OrderItemDescription {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    /* Right */
+
+      .OrderItemPrice {
+        font-size: 1rem;
+        font-weight: 600;
+        opacity: 1;
+      }
+
+      .OrderItemDiscountPrice {
+        font-size: 0.8rem;
+      }
+
+      .OrderItemTotalPrice {
+        font-size: 1.3rem;
+      }
+
+  .OrderItemLabel {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 400;
+    opacity: 0.4;
+    margin-bottom: 18px;
+  }
+
+  /* Total */
+
+
+
+
+.Divider {
+  width: 100%;
+  height: 2px;
+  box-shadow: 0 2px 1px 0 #e4e5e8;
+  margin: 20px 0px;
+}
+
+.PanelGrow {
+  flex-grow: 1;
+}
